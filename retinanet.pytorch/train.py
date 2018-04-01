@@ -9,7 +9,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 from torch.autograd import Variable
 
-import voc.transforms as transforms
+import neuromation.transforms as transforms
 from encoder import DataEncoder
 from loss import FocalLoss
 from retinanet import RetinaNet
