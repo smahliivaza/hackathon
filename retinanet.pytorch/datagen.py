@@ -21,6 +21,7 @@ from os import path, listdir
 
 from encoder import DataEncoder
 from collections import defaultdict
+from skimage.transform import rescale, resize, 
 
 
 class BottleLoader(Dataset):
@@ -71,9 +72,9 @@ class BottleLoader(Dataset):
         data = list(self.metadata['paths'][i])
         shape = self.metadata['shape'][i]
         scale = (sizeremap[shape[0]]/shape[0], sizeremap[shape[1]]/shape[1])
-        img = Image.open(data[0])
-        img.thumbnail((sizeremap[shape[0]], sizeremap[shape[1]]))
-        img = torch.Tensor(np.array(img).transpose(2,0,1))
+        img = np.array(Image.open(data[0]))
+        img = resize(img, (sizeremap[shape[0]], sizeremap[shape[1]]))
+        img = torch.Tensor(img.transpose(2,0,1))
         with open(data[self.json_idx], 'r') as f:
             groups = json.load(f)
         num_obj = sum(map(len, groups))
