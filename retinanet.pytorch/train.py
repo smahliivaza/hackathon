@@ -13,8 +13,6 @@ import neuromation.transforms as transforms
 from encoder import DataEncoder
 from loss import FocalLoss
 from retinanet import RetinaNet
-from datagen import BottleLoader, BucketBatchSampler
-
 
 parser = argparse.ArgumentParser(description='PyTorch RetinaNet Training')
 parser.add_argument('--exp', default='fuck', help='experiment name')
