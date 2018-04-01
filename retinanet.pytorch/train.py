@@ -8,6 +8,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from torch.autograd import Variable
+from torch.utils.data import DataLoader
 
 import neuromation.transforms as transforms
 from neuromation.datasets import BottleLoader
@@ -39,10 +40,10 @@ val_transform = transforms.Compose([
 ])
 
 trainset = BottleLoader(cfg.train_path, encoder=DataEncoder(), transform=train_transform)
-valset = VocLikeDataset(cfg.train_path, encoder=DataEncoder(), transform=val_transform)
-trainloader = torch.utils.data.DataLoader(trainset, batch_size=cfg.batch_size, shuffle=True,
+valset = BottleLoader(cfg.train_path, encoder=DataEncoder(), transform=val_transform)
+trainloader = DataLoader(trainset, batch_size=cfg.batch_size, shuffle=True,
                                           num_workers=cfg.num_workers, collate_fn=trainset.collate_fn)
-valloader = torch.utils.data.DataLoader(valset, batch_size=cfg.batch_size, shuffle=False,
+valloader = DataLoader(valset, batch_size=cfg.batch_size, shuffle=False,
                                         num_workers=cfg.num_workers, collate_fn=valset.collate_fn)
 
 print('Building model...')
