@@ -21,7 +21,7 @@ from os import path, listdir
 
 from encoder import DataEncoder
 from collections import defaultdict
-from skimage.transform import rescale, resize, 
+from skimage.transform import resize
 
 
 class BottleLoader(Dataset):
