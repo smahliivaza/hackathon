@@ -1,0 +1,2 @@
+sudo apt update && sudo apt install zram-config && sudo service zram-config start
+sudo nvidia-docker run --mount type=bind,source=/var/hackaton/object_detection/val/SynteticSet20180323_val/data,target=/var/hackaton/object_detection/val/SynteticSet20180323_val/data --mount type=bind,source=/var/hackaton/object_detection/set/SynteticSet20180323/data,target=/var/hackaton/object_detection/set/SynteticSet20180323/data --mount type=bind,source=/home/ubuntu/,target=/root/ --ipc=host -it nightseas/pytorch
