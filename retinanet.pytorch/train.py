@@ -70,7 +70,6 @@ def train(epoch):
     train_loss = 0
     for batch_idx, (inputs, loc_targets, cls_targets) in enumerate(trainloader):
         inputs = Variable(inputs.cuda())
-        import pdb; pdb.set_trace()
         loc_targets = Variable(loc_targets.cuda())
         cls_targets = Variable(cls_targets.cuda())
 
