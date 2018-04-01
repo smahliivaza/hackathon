@@ -35,6 +35,7 @@ class FocalLoss(nn.Module):
     def forward(self, loc_preds, loc_targets, cls_preds, cls_targets):
         batch_size, num_boxes = cls_targets.size()
         pos = cls_targets > 0
+        import pdb; pdb.set_trace()
         num_pos = pos.data.long().sum()
 
         mask = pos.unsqueeze(2).expand_as(loc_preds)
