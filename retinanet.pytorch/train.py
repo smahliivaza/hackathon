@@ -16,21 +16,10 @@ from retinanet import RetinaNet
 from datagen import BottleLoader, BucketBatchSampler
 
 
-#parser = argparse.ArgumentParser(description='PyTorch RetinaNet Training')
-#parser.add_argument('--exp', default='fuck', help='experiment name')
-#parser.add_argument('--resume', '-r', action='store_true', help='resume from checkpoint')
-#parser.add_argument('--num-workers', default=5, type=int, help='num workers')
-#parser.add_argument('--batch-size', default=5, type=int, help='batch size')
-#parser.add_argument('--lr', default=1e-4, type=float, help='learning rate')
-#args = parser.parse_args()
-
-class Alas:
-    exp = 'lol'
-    resume=False
-    num_workers=2
-    batch_size=2
-    lr=1e-4
-args = Alas
+parser = argparse.ArgumentParser(description='PyTorch RetinaNet Training')
+parser.add_argument('--exp', default='fuck', help='experiment name')
+parser.add_argument('--resume', '-r', action='store_true', help='resume from checkpoint')
+args = parser.parse_args()
 
 sys.path.insert(0, os.path.join('exps', args.exp))
 import config as cfg
@@ -50,16 +39,17 @@ val_transform = transforms.Compose([
     transforms.Normalize(cfg.mean, cfg.std)
 ])
 
-trainset = BottleLoader('../../data', json_idx=1)
-batch_sampler = BucketBatchSampler(trainset, 10, False)
-trainloader = torch.utils.data.DataLoader(trainset, num_workers=args.num_workers, collate_fn=trainset.collate_fn, batch_sampler=batch_sampler)
+trainset = BottleLoader(cfg.train_path, json_idx=1)
+batch_sampler = BucketBatchSampler(trainset, cfg.batch_size, False)
+trainloader = torch.utils.data.DataLoader(trainset, num_workers=cfg.num_workers, collate_fn=trainset.collate_fn, batch_sampler=batch_sampler)
 
-#testset = BottleLoader('/var/hackaton/object_detection/val/SynteticSet20180323_val/data', json_idx=1)
-#test_batch_sampler = BucketBatchSampler(trainset, 10, False)
-#testloader = torch.utils.data.DataLoader(trainset, num_workers=args.num_workers, collate_fn=trainset.collate_fn, #batch_sampler=batch_sampler)
+valset = BottleLoader(cfg.val_path, json_idx=1)
+valset_sampler = BucketBatchSampler(valset, cfg.batch_size, False)
+testloader = torch.utils.data.DataLoader(valset, num_workers=cfg.num_workers, collate_fn=valset.collate_fn, batch_sampler=valset_sampler)
 
 print('Building model...')
 net = RetinaNet(backbone=cfg.backbone, num_classes=len(cfg.classes))
+print(f'{net.num_classes} classes.')
 if args.resume:
     print('Resuming from checkpoint..')
     checkpoint = torch.load(os.path.join('ckpts', args.exp, 'ckpt.pth'))
