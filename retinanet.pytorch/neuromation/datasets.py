@@ -81,7 +81,7 @@ class BottleLoader(Dataset):
         return example
 
     def __len__(self):
-        return len(self.filenames)
+        return len(self.impaths)
 
     def collate_fn(self, batch):
         imgs = [example['image'] for example in batch]
