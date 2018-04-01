@@ -36,6 +36,7 @@ class FocalLoss(nn.Module):
         batch_size, num_boxes = cls_targets.size()
         pos = cls_targets > 0
         num_pos = pos.data.long().sum()
+
         mask = pos.unsqueeze(2).expand_as(loc_preds)
         masked_loc_preds = loc_preds[mask].view(-1,4)
         masked_loc_targets = loc_targets[mask].view(-1,4)

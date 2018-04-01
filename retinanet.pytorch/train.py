@@ -8,13 +8,13 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from torch.autograd import Variable
-from torch.utils.data import DataLoader
 
 import neuromation.transforms as transforms
-from neuromation.datasets import BottleLoader
 from encoder import DataEncoder
 from loss import FocalLoss
 from retinanet import RetinaNet
+from neuromation.datasets import BottleLoader
+
 
 parser = argparse.ArgumentParser(description='PyTorch RetinaNet Training')
 parser.add_argument('--exp', required=True, help='experiment name')
@@ -48,7 +48,6 @@ valloader = DataLoader(valset, batch_size=cfg.batch_size, shuffle=False,
 
 print('Building model...')
 net = RetinaNet(backbone=cfg.backbone, num_classes=len(cfg.classes))
-print(f'{len(cfg.classes)} classes.')
 if args.resume:
     print('Resuming from checkpoint..')
     checkpoint = torch.load(os.path.join('ckpts', args.exp, 'ckpt.pth'))

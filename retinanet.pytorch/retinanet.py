@@ -10,7 +10,7 @@ from resnet import *
 
 def classification_layer_init(tensor, pi=0.01):
     fill_constant = - math.log((1 - pi) / pi)
-    if not torch.is_tensor(tensor):
+    if isinstance(tensor, Variable):
         classification_layer_init(tensor.data)
     return tensor.fill_(fill_constant)
 
@@ -95,7 +95,7 @@ class RetinaNet(nn.Module):
         'resnet152': resnet152
     }
 
-    def __init__(self, backbone='resnet101', num_classes=8, pretrained=True):
+    def __init__(self, backbone='resnet101', num_classes=20, pretrained=True):
         super(RetinaNet, self).__init__()
         self.resnet = RetinaNet.backbones[backbone](pretrained=pretrained)
         self.feature_pyramid = FeaturePyramid(self.resnet)
@@ -114,4 +114,3 @@ if __name__ == '__main__':
     x = Variable(torch.rand(1, 3, 864, 1536).cuda())
     for l in net(x):
         print(l.size())
-
