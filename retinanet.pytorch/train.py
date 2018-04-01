@@ -22,7 +22,6 @@ parser.add_argument('--resume', '-r', action='store_true', help='resume from che
 args = parser.parse_args()
 
 sys.path.insert(0, os.path.join('exps', args.exp))
-print(args.exp)
 import config as cfg
 
 assert torch.cuda.is_available(), 'Error: CUDA not found!'
