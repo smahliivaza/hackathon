@@ -10,6 +10,7 @@ import torch.optim as optim
 from torch.autograd import Variable
 
 import neuromation.transforms as transforms
+from neuromation.dataset import BottleLoader
 from encoder import DataEncoder
 from loss import FocalLoss
 from retinanet import RetinaNet
