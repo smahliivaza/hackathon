@@ -65,8 +65,8 @@ class BottleLoader(Dataset):
     
     def __getitem__(self, i):
         sizeremap = {
-            1024: 432,
-            1366: 768
+            1024: 500,
+            1366: 500
         }
         data = list(self.metadata['paths'][i])
         shape = self.metadata['shape'][i]
