@@ -39,13 +39,12 @@ val_transform = transforms.Compose([
     transforms.Normalize(cfg.mean, cfg.std)
 ])
 
-trainset = BottleLoader(cfg.train_path, json_idx=1)
-batch_sampler = BucketBatchSampler(trainset, cfg.batch_size, False)
-trainloader = torch.utils.data.DataLoader(trainset, num_workers=cfg.num_workers, collate_fn=trainset.collate_fn, batch_sampler=batch_sampler, transform=train_transform)
-
-valset = BottleLoader(cfg.val_path, json_idx=1)
-valset_sampler = BucketBatchSampler(valset, cfg.batch_size, False)
-testloader = torch.utils.data.DataLoader(valset, num_workers=cfg.num_workers, collate_fn=valset.collate_fn, batch_sampler=valset_sampler, transform=val_transform)
+trainset = BottleLoader(cfg.train_path, encoder=DataEncoder(), transform=train_transform)
+valset = VocLikeDataset(cfg.train_path, encoder=DataEncoder(), transform=val_transform)
+trainloader = torch.utils.data.DataLoader(trainset, batch_size=cfg.batch_size, shuffle=True,
+                                          num_workers=cfg.num_workers, collate_fn=trainset.collate_fn)
+valloader = torch.utils.data.DataLoader(valset, batch_size=cfg.batch_size, shuffle=False,
+                                        num_workers=cfg.num_workers, collate_fn=valset.collate_fn)
 
 print('Building model...')
 net = RetinaNet(backbone=cfg.backbone, num_classes=len(cfg.classes))
