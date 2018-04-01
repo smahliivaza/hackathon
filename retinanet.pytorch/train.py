@@ -14,7 +14,7 @@ from encoder import DataEncoder
 from loss import FocalLoss
 from retinanet import RetinaNet
 from neuromation.datasets import BottleLoader
-
+from torch.utils.data import DataLoader
 
 parser = argparse.ArgumentParser(description='PyTorch RetinaNet Training')
 parser.add_argument('--exp', required=True, help='experiment name')
