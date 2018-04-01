@@ -17,7 +17,7 @@ from loss import FocalLoss
 from retinanet import RetinaNet
 
 parser = argparse.ArgumentParser(description='PyTorch RetinaNet Training')
-parser.add_argument('--exp', default='fuck', help='experiment name')
+parser.add_argument('--exp', require=True, help='experiment name')
 parser.add_argument('--resume', '-r', action='store_true', help='resume from checkpoint')
 args = parser.parse_args()
 
