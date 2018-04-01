@@ -1,11 +1,11 @@
 class BoundingBox:
-    def __init__(self, left, top, right, bottom, image_width, image_height, label):
-        self.left = left
-        self.top = top
-        self.right = right
-        self.bottom = bottom
-        self.width = right - left
-        self.height = bottom - top
+    def __init__(self, left, bottom, right, top, image_width, image_height, label): #swap tob and bottom
+        self.left = max(0, left)
+        self.top = min(top, image_height)
+        self.right = min(right, image_width)
+        self.bottom = max(0, bottom)
+        self.width = self.right - self.left
+        self.height = self.bottom - self.top
         self.image_width = image_width
         self.image_height = image_height
         self.label = label

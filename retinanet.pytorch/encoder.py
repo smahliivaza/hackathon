@@ -48,7 +48,7 @@ class DataEncoder:
             input_size = torch.Tensor([input_size, input_size])
         else:
             input_size = torch.Tensor(input_size)
-        
+
         anchor_boxes = self.get_anchor_boxes(input_size)
         boxes = change_box_order(boxes, 'xyxy2xywh')
         boxes = boxes.float()
