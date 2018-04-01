@@ -49,7 +49,7 @@ testloader = torch.utils.data.DataLoader(valset, num_workers=cfg.num_workers, co
 
 print('Building model...')
 net = RetinaNet(backbone=cfg.backbone, num_classes=len(cfg.classes))
-print(f'{net.num_classes} classes.')
+print(f'{len(cfg.classes)} classes.')
 if args.resume:
     print('Resuming from checkpoint..')
     checkpoint = torch.load(os.path.join('ckpts', args.exp, 'ckpt.pth'))

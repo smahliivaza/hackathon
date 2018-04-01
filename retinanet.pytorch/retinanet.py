@@ -82,6 +82,7 @@ class SubNet(nn.Module):
         for layer in self.base:
             x = self.activation(layer(x))
         x = self.output(x)
+        print(x.size(2), x.size(3)) 
         x = x.permute(0, 2, 3, 1).contiguous().view(x.size(0), x.size(2) * x.size(3) * self.anchors, -1)
         return x
 
@@ -95,7 +96,7 @@ class RetinaNet(nn.Module):
         'resnet152': resnet152
     }
 
-    def __init__(self, backbone='resnet101', num_classes=7, pretrained=True):
+    def __init__(self, backbone='resnet101', num_classes=8, pretrained=True):
         super(RetinaNet, self).__init__()
         self.resnet = RetinaNet.backbones[backbone](pretrained=pretrained)
         self.feature_pyramid = FeaturePyramid(self.resnet)
@@ -106,4 +107,13 @@ class RetinaNet(nn.Module):
         pyramid_features = self.feature_pyramid(x)
         class_predictions = [self.subnet_classes(p) for p in pyramid_features]
         bbox_predictions = [self.subnet_boxes(p) for p in pyramid_features]
+        import pdb; pdb.set_trace()
         return torch.cat(bbox_predictions, 1), torch.cat(class_predictions, 1)
+
+
+if __name__ == '__main__':
+    net = RetinaNet().cuda()
+    x = Variable(torch.rand(1, 3, 864, 1536).cuda())
+    for l in net(x):
+        print(l.size())
+
