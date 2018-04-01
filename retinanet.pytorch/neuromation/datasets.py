@@ -71,7 +71,7 @@ class BottleLoader(Dataset):
         return img, coords, labels
     
     def __getitem__(self, index):
-        impath = self.impaths[index]
+        impath = self.impath[index]
         annnotation = self.annotations[index]
         image = Image.open(impath)
         boxes = self.annotate(annotation, image.size)
@@ -81,7 +81,7 @@ class BottleLoader(Dataset):
         return example
 
     def __len__(self):
-        return len(self.impaths)
+        return len(self.impath)
 
     def collate_fn(self, batch):
         imgs = [example['image'] for example in batch]
