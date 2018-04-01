@@ -72,7 +72,7 @@ class BottleLoader(Dataset):
     
     def __getitem__(self, index):
         impath = self.impath[index]
-        annnotation = self.annotations[index]
+        annotation = self.annotations[index]
         image = Image.open(impath)
         boxes = self.annotate(annotation, image.size)
         example = {'image': image, 'boxes': boxes}
