@@ -75,14 +75,14 @@ class SubNet(nn.Module):
         self.anchors = anchors
         self.activation = activation
         self.base = nn.ModuleList([conv3x3(256, 256, padding=1) for _ in range(depth)])
-        self.output = nn.Conv2d(256, k * anchors, kernel_size=3, padding=1)
+        self.output = nn.Conv2d(256, k * anchors, kernel_size=3, padding=0)
         classification_layer_init(self.output.weight.data)
 
     def forward(self, x):
         for layer in self.base:
             x = self.activation(layer(x))
         x = self.output(x)
-        x = x.permute(0, 2, 3, 1).contiguous().view(x.size(0), x.size(2) * x.size(3) * self.anchors, -1)
+        x = x.permute(0, 2, 3, 1).contiguous().view(x.size(0), x.size(2) * x.size(3) * self.anchors, 4)
         return x
 
 
