@@ -75,7 +75,7 @@ class BottleLoader(Dataset):
         annotation = self.annotations[index]
         image = Image.open(impath)
         boxes = self.annotate(annotation, image.size)
-        example = {'image': image, 'boxes': boxes}
+        example = {'image': image, 'boxes': boxes[:5]}
         if self.transform:
             example = self.transform(example)
         return example
